@@ -23,8 +23,8 @@
 
 static const char *TAG = "cmd_i2ctools";
 
-static gpio_num_t i2c_gpio_sda = 18;
-static gpio_num_t i2c_gpio_scl = 19;
+static gpio_num_t i2c_gpio_sda = 23;
+static gpio_num_t i2c_gpio_scl = 22;
 static uint32_t i2c_frequency = 100000;
 static i2c_port_t i2c_port = I2C_NUM_0;
 

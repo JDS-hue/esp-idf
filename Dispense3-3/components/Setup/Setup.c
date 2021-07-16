@@ -1,11 +1,5 @@
-/* GPIO Example
+#include "Setup.h"
 
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -30,16 +24,6 @@
  * Generate pulses on GPIO18/19, that triggers interrupt on GPIO4/5
  *
  */
-
-#define GPIO_OUTPUT_IO_0    4
-//#define GPIO_OUTPUT_IO_1    19
-#define GPIO_OUTPUT_PIN_SEL  ((1ULL<<GPIO_OUTPUT_IO_0))// | (1ULL<<GPIO_OUTPUT_IO_1))
-#define GPIO_INPUT_IO_0     17
-#define GPIO_INPUT_IO_1     18
-#define GPIO_INPUT_IO_2     19
-#define GPIO_INPUT_PIN_SEL  ((1ULL<<GPIO_INPUT_IO_0) | (1ULL<<GPIO_INPUT_IO_1) | (1ULL<<GPIO_INPUT_IO_2))
-#define ESP_INTR_FLAG_DEFAULT 0
-
 static xQueueHandle gpio_evt_queue = NULL;
 
 static void IRAM_ATTR gpio_isr_handler(void* arg)
@@ -58,7 +42,7 @@ static void gpio_task_example(void* arg)
     }
 }
 
-void app_main(void)
+void setup(void)
 {
     gpio_config_t io_conf;
     //disable interrupt
@@ -107,12 +91,4 @@ void app_main(void)
     gpio_isr_handler_add(GPIO_INPUT_IO_0, gpio_isr_handler, (void*) GPIO_INPUT_IO_0);
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
-
-    int cnt = 0;
-    while(1) {
-        printf("cnt: %d\n", cnt++);
-        vTaskDelay(1000 / portTICK_RATE_MS);
-        gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
-        //gpio_set_level(GPIO_OUTPUT_IO_1, cnt % 2);
-    }
 }

@@ -1,0 +1,49 @@
+idf.py -p COM5 clean flash monitor
+
+while(1) {
+                 int num;
+                num = gpio_get_level(GPIO_INPUT_IO_B);
+            printf("GPIO LEVEL: %d\n", num);
+            
+        
+                }   
+
+if (Initialize != true){
+        InitializeGPIO();
+        printf("GPIO's Initialized");
+        printf(statemain);
+        gpio_set_level(GPIO_OUTPUT_IO_B, 1);
+    }
+
+
+    if (statemain == 0){  //Idle state where processor waits for inputs from buttons, keypad, firmware update
+
+            printf("State 0");
+            
+               // if (BUTTON_PRESSED == 1) {
+                
+               // statemain = 3;
+               // printf("Button pressed");
+           // }
+    }
+    if (statemain == 1){  //Light flashing and waiting for start signal, setting fill data
+            printf("State 1");
+    }
+    if (statemain == 2){  //Light set, motor set, data store and upload, interrupt set
+            printf("State 2");
+        //turn motor on
+    }
+    if (statemain == 3){  //measure and stop, record data, interrupt off, return state 0
+        Flow1();
+        //turn motor on
+        if (Flow1cnt >= 10){
+            //turn motor off
+            printf("Motor Signal Low");
+            printf("Flow meter pulse reading : %d\n", Flow1cnt);
+            Flow1cnt = 0;
+            statemain = 0;
+        }
+    }
+    if (statemain == 4){ //Settings page 
+        
+    }
